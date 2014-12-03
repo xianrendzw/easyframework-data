@@ -70,7 +70,7 @@ public abstract class BaseService<TDao extends BaseDao<TEntity>, TEntity> {
 	 * @return
 	 */
 	public boolean remove(String id) {
-		return this.dao.delete(id) > 0;
+		return this.dao.deleteByKey(id) > 0;
 	}
 
 	/**

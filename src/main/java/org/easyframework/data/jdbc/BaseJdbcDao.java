@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.easyframework.data.PageInfo;
+import org.easyframework.data.mapping.ColumnProperty;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -18,9 +20,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
-import org.easyframework.data.PageInfo;
-import org.easyframework.data.mapping.ColumnProperty;
 
 public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao {
 	protected final Logger logger = Logger.getLogger(this.getClass());
@@ -37,7 +36,8 @@ public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao
 	/**
 	 * 执行更新SQL语句
 	 *
-	 * @param sql sql语句
+	 * @param sql
+	 *            sql语句
 	 * @return 返回成功更新的记录数
 	 * @throws DataAccessException
 	 */
@@ -79,9 +79,12 @@ public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao
 	/**
 	 * 向表中插入一条记录并返回其自增id
 	 *
-	 * @param sql sql语句
-	 * @param args sql参数
-	 * @param argTypes sql参数对应的数据类型
+	 * @param sql
+	 *            sql语句
+	 * @param args
+	 *            sql参数
+	 * @param argTypes
+	 *            sql参数对应的数据类型
 	 * @return 自增id
 	 * @throws DataAccessException
 	 */
@@ -107,8 +110,10 @@ public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao
 	/**
 	 * 向表中插入一条记录并返回其自增id
 	 *
-	 * @param sql sql语句
-	 * @param args sql参数
+	 * @param sql
+	 *            sql语句
+	 * @param args
+	 *            sql参数
 	 * @return 自增id
 	 * @throws DataAccessException
 	 */
@@ -134,8 +139,10 @@ public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao
 	/**
 	 * 批量向表中插入记录
 	 *
-	 * @param sql sql语句
-	 * @param list 插入的对象的列属性集合
+	 * @param sql
+	 *            sql语句
+	 * @param list
+	 *            插入的对象的列属性集合
 	 */
 	@Override
 	public int batchUpdate(final String sql, final List<List<ColumnProperty>> list) throws DataAccessException {
@@ -426,9 +433,8 @@ public abstract class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao
 		}
 
 		StringBuffer sqlBuf = new StringBuffer(30 + sql.length());
-		int endIndex = page.getStartIndex() + page.getPageSize();
 		sqlBuf.append(sql);
-		sqlBuf.append(String.format(" LIMIT %s,%s", page.getStartIndex(), endIndex));
+		sqlBuf.append(String.format(" LIMIT %s,%s", page.getStartIndex(), page.getPageSize()));
 		/*
 		 * sqlBuf.append("SELECT tt.* FROM").append(" (SELECT ROWNUM rid,t.* FROM ("
 		 * ).append(sql).append( ") t) tt WHERE rid >").append(
